@@ -18,6 +18,8 @@ import java.io.InputStream;
  * Created by godliness on 2020-03-27.
  *
  * @author godliness
+ * <p>
+ * Base controller of PDFView
  */
 @SuppressWarnings("unused")
 public abstract class BasePDFController<TitleBar extends BasePDFControllerBar, BottomBar extends BasePDFControllerBar, StateBar extends BaseStateBar>

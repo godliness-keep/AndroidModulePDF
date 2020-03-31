@@ -6,6 +6,8 @@ import com.godliness.android.base.controller.BaseControllerBar;
  * Created by godliness on 2020-03-30.
  *
  * @author godliness
+ * <p>
+ * Bar of pdf controller
  */
 public abstract class BasePDFControllerBar extends BaseControllerBar {
 
