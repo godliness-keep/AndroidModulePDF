@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
 
-import com.godliness.android.base.controller.BaseStateBar;
+import com.godliness.android.modulepdf.BasePDFStateBar;
 import com.godliness.android.modulepdfdemo.R;
 
 
@@ -14,7 +14,7 @@ import com.godliness.android.modulepdfdemo.R;
  *
  * @author godliness
  */
-public final class DefaultStateBar extends BaseStateBar {
+public final class DefaultStateBar extends BasePDFStateBar {
 
     private View mProgress;
     private View mErrorView;
@@ -43,11 +43,6 @@ public final class DefaultStateBar extends BaseStateBar {
     @Override
     public void regEvent(boolean event) {
 
-    }
-
-    @Override
-    protected boolean attachToRoot() {
-        return true;
     }
 
     @Override
