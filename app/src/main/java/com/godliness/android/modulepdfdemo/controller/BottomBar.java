@@ -33,7 +33,7 @@ public final class BottomBar extends BasePDFControllerBar implements View.OnClic
         void onPre();
     }
 
-    public void setOnBottomBarChangeListener(OnBottomBarChangeListener callback) {
+    void setOnBottomBarChangeListener(OnBottomBarChangeListener callback) {
         this.mCallback = callback;
     }
 
@@ -63,6 +63,10 @@ public final class BottomBar extends BasePDFControllerBar implements View.OnClic
         mProgress.setProgress(page);
 
         mTvProgress.setText(page + 1 + "/" + pageCount);
+    }
+
+    public void onInitially(int nbPages) {
+        mTvProgress.setText("1/" + nbPages);
     }
 
     @Override

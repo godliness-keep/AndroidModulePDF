@@ -1,2 +1,2 @@
-include ':app', ':module-business-pdf',
-        ':module-business-pdf'
+include ':app',
+        ':business-component-pdf'

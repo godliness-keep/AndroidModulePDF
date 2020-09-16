@@ -8,6 +8,7 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.godliness.android.modulepdfdemo.controller.PDFController;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 
 /**
@@ -30,12 +31,14 @@ public class PDFViewActivity extends AppCompatActivity {
         // 初始化控制器
         initController();
 
-        // 加载pdf资源 getAssets().open("test-pdf.pdf")
+        InputStream inputStream = null;
         try {
-            mController.fromStream(getAssets().open("test-pdf.pdf")).swipeHorizontal(true).load();
+            inputStream = getAssets().open("test-pdf.pdf");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        mController.fromStream(inputStream).swipeHorizontal(true).load();
+        mController.setPDFTitle("这里是PDF标题栏");
     }
 
     private void initController() {

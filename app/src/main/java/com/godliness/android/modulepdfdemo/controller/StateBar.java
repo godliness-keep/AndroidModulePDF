@@ -14,7 +14,7 @@ import com.godliness.android.modulepdfdemo.R;
  *
  * @author godliness
  */
-public final class DefaultStateBar extends BasePDFStateBar {
+public final class StateBar extends BasePDFStateBar {
 
     private View mProgress;
     private View mErrorView;

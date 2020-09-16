@@ -1,6 +1,8 @@
 package com.godliness.android.modulepdfdemo.controller;
 
-import com.godliness.android.modulepdf.BasePDFControllerBar;
+import android.widget.TextView;
+
+import com.godliness.android.modulepdf.BasePDFTitlebar;
 import com.godliness.android.modulepdfdemo.R;
 
 /**
@@ -8,7 +10,9 @@ import com.godliness.android.modulepdfdemo.R;
  *
  * @author godliness
  */
-public final class TitleBar extends BasePDFControllerBar {
+public final class TitleBar extends BasePDFTitlebar {
+
+    private TextView mTitle;
 
     @Override
     public int getBarLayoutId() {
@@ -17,9 +21,16 @@ public final class TitleBar extends BasePDFControllerBar {
 
     @Override
     public void initBar() {
+        mTitle = findViewById(R.id.tv_title);
     }
 
     @Override
     public void regEvent(boolean event) {
     }
+
+    @Override
+    public void setPDFTitle(String title) {
+        mTitle.setText(title);
+    }
+
 }

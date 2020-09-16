@@ -10,6 +10,7 @@ import com.github.barteksc.pdfviewer.listener.OnRenderListener;
 import com.github.barteksc.pdfviewer.source.DocumentSource;
 import com.godliness.android.base.controller.BaseStateBar;
 import com.godliness.android.base.controller.BaseTemplateController;
+import com.godliness.android.modulepdf.options.BaseOptions;
 
 import java.io.File;
 import java.io.InputStream;
@@ -21,29 +22,67 @@ import java.io.InputStream;
  * <p>
  * Base controller of PDFView
  */
-@SuppressWarnings("unused")
-public abstract class BasePDFController<TitleBar extends BasePDFControllerBar, BottomBar extends BasePDFControllerBar, StateBar extends BaseStateBar>
+@SuppressWarnings({"unused", "unchecked", "WeakerAccess"})
+public abstract class BasePDFController<TitleBar extends BasePDFTitlebar, BottomBar extends BasePDFControllerBar, StateBar extends BasePDFStateBar>
         extends BaseTemplateController<TitleBar, BottomBar, StateBar>
         implements OnErrorListener, OnLoadCompleteListener, OnPageChangeListener, OnRenderListener {
+
+    private BaseOptions mOptions;
+    private String mTtile;
 
     public BasePDFController(PDFView host) {
         super(host);
     }
 
+    /**
+     * More configuration
+     */
+    protected <Options extends BaseOptions> Options createOptions() {
+        return null;
+    }
+
+    public final void setPDFTitle(String title) {
+        final TitleBar titleBar = getTitleBar();
+        if (titleBar != null) {
+            titleBar.setPDFTitle(title);
+        } else {
+            this.mTtile = title;
+        }
+    }
+
     @Override
-    public void onError(Throwable t) {
+    protected final void initTitleBar() {
+        super.initTitleBar();
+        final TitleBar titleBar = getTitleBar();
+        if (titleBar != null) {
+            titleBar.updateConfigurationOptions(getOptions());
+            titleBar.setPDFTitle(mTtile);
+        }
+    }
+
+    @Override
+    protected final void initBottomBar() {
+        super.initBottomBar();
+        final BottomBar bottomBar = getBottomBar();
+        if (bottomBar != null) {
+            bottomBar.updateConfigurationOptions(getOptions());
+        }
+    }
+
+    @Override
+    public final void onError(Throwable t) {
         final StateBar stateBar = getStateBar();
         if (stateBar != null) {
             if (!hasNetwork()) {
                 stateBar.onError(BaseStateBar.Status.STATUS_NETWORK_ERROR);
                 return;
             }
-            stateBar.onError(BaseStateBar.Status.STATUS_UNKNOWN);
+            stateBar.onError(0);
         }
     }
 
     @Override
-    public void loadComplete(int nbPages) {
+    public final void loadComplete(int nbPages) {
         final StateBar stateBar = getStateBar();
         if (stateBar != null) {
             stateBar.onLoading(false);
@@ -51,7 +90,7 @@ public abstract class BasePDFController<TitleBar extends BasePDFControllerBar, B
     }
 
     @Override
-    public void onPageChanged(int page, int pageCount) {
+    public final void onPageChanged(int page, int pageCount) {
         final TitleBar titleBar = getTitleBar();
         if (titleBar != null) {
             titleBar.onPageChanged(page, pageCount);
@@ -91,6 +130,13 @@ public abstract class BasePDFController<TitleBar extends BasePDFControllerBar, B
             return getHost();
         }
         return null;
+    }
+
+    private BaseOptions getOptions() {
+        if (mOptions == null) {
+            mOptions = createOptions();
+        }
+        return mOptions;
     }
 
     private PDFView.Configurator initConfigurator(Object resource) {

@@ -11,9 +11,12 @@ import com.godliness.android.modulepdf.BasePDFController;
  *
  * @author godliness
  */
-public final class PDFController extends BasePDFController<TitleBar, BottomBar, DefaultStateBar> implements DefaultStateBar.OnStateBarListener, BottomBar.OnBottomBarChangeListener {
+public final class PDFController extends BasePDFController<TitleBar, BottomBar, StateBar> implements StateBar.OnStateBarListener, BottomBar.OnBottomBarChangeListener {
 
     private final PDFView mPDFView;
+
+    private TitleBar mTitleBar;
+    private BottomBar mBottomBar;
 
     public PDFController(PDFView host) {
         super(host);
@@ -22,24 +25,37 @@ public final class PDFController extends BasePDFController<TitleBar, BottomBar, 
 
     @Override
     public void onInitiallyRendered(int nbPages, float pageWidth, float pageHeight) {
+        show();
+
+        final BottomBar bottomBar = getBottomBar();
+        if (bottomBar != null) {
+            bottomBar.onInitially(nbPages);
+        }
     }
 
     @Nullable
     @Override
     protected TitleBar createTitleBar() {
-        return new TitleBar();
+        if (mTitleBar == null) {
+            mTitleBar = new TitleBar();
+        }
+        return mTitleBar;
     }
 
     @Nullable
     @Override
     protected BottomBar createBottomBar() {
-        return new BottomBar();
+        if (mBottomBar == null) {
+            mBottomBar = new BottomBar();
+            mBottomBar.setOnBottomBarChangeListener(this);
+        }
+        return mBottomBar;
     }
 
     @Nullable
     @Override
-    protected DefaultStateBar createStateBar() {
-        return new DefaultStateBar();
+    protected StateBar createStateBar() {
+        return new StateBar();
     }
 
     /**
@@ -53,7 +69,6 @@ public final class PDFController extends BasePDFController<TitleBar, BottomBar, 
     @Override
     protected void regEvent(boolean event) {
         getStateBar().setStateBarListener(event ? this : null);
-        getBottomBar().setOnBottomBarChangeListener(event ? this : null);
     }
 
     @Override

@@ -5,5 +5,9 @@ package com.godliness.android.modulepdf.options;
  *
  * @author godliness
  */
-public abstract class BaseOptions {
+public class BaseOptions {
+
+    protected BaseOptions() {
+
+    }
 }
